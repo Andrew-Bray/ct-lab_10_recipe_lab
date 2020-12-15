@@ -2,7 +2,7 @@ const fs = require('fs');
 const pool = require('../lib/utils/pool');
 const request = require('supertest');
 const app = require('../lib/app');
-const Recipe = require('../lib/models/recipe');
+const Recipe = require('../lib/models/Recipe');
 
 describe('recipe-lab routes', () => {
   beforeEach(() => {
@@ -112,5 +112,9 @@ describe('recipe-lab routes', () => {
           ]
         });
       });
+  });
+
+  afterAll(() => {
+    return pool.query.end();
   });
 });
