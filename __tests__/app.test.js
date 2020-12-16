@@ -115,6 +115,6 @@ describe('recipe-lab routes', () => {
   });
 
   afterAll(() => {
-    return pool.query.end();
+    return pool.end();
   });
 });
