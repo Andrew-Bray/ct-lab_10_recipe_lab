@@ -2,7 +2,7 @@ const fs = require('fs');
 const pool = require('../lib/utils/pool');
 const request = require('supertest');
 const app = require('../lib/app');
-const Recipe = require('../lib/models/recipe');
+const Recipe = require('../lib/models/Recipe');
 
 describe('recipe-lab routes', () => {
   beforeEach(() => {
@@ -85,5 +85,36 @@ describe('recipe-lab routes', () => {
           ]
         });
       });
+  });
+
+  it('deletes a recipe by id', async() => {
+    const recipe = await Recipe.insert({
+      name: 'cookies',
+      directions: [
+        'preheat oven to 375',
+        'mix ingredients',
+        'put dough on cookie sheet',
+        'bake for 10 minutes'
+      ],
+    });
+
+    return request(app)
+      .delete(`/api/v1/recipes/${recipe.id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          id: expect.any(String),
+          name: 'cookies',
+          directions: [
+            'preheat oven to 375',
+            'mix ingredients',
+            'put dough on cookie sheet',
+            'bake for 10 minutes'
+          ]
+        });
+      });
+  });
+
+  afterAll(() => {
+    return pool.end();
   });
 });
